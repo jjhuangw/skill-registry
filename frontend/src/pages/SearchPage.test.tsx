@@ -13,6 +13,7 @@ const mockSkills = [
 
 beforeEach(() => {
   vi.mocked(api.fetchSkills).mockResolvedValue(mockSkills);
+  vi.mocked(api.deleteSkill).mockResolvedValue(undefined);
 });
 
 function renderPage() {
@@ -30,5 +31,13 @@ describe('SearchPage', () => {
     const input = screen.getByPlaceholderText(/search/i);
     await userEvent.type(input, 'hello');
     await waitFor(() => expect(api.fetchSkills).toHaveBeenCalledWith('hello'));
+  });
+
+  it('deletes skill and removes from list on confirm', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    renderPage();
+    await waitFor(() => expect(screen.getByText('My Skill')).toBeInTheDocument());
+    await userEvent.click(screen.getByRole('button', { name: /delete/i }));
+    expect(api.deleteSkill).toHaveBeenCalledWith('1');
   });
 });
