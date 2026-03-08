@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { fetchSkill } from '../api';
+import { fetchSkill, deleteSkill } from '../api';
 import type { Skill } from '../api';
 
 export default function SkillDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [skill, setSkill] = useState<Skill | null>(null);
 
   useEffect(() => {
@@ -14,12 +15,21 @@ export default function SkillDetailPage() {
 
   if (!skill) return <p style={{ padding: '1rem' }}>Loading...</p>;
 
+  async function handleDelete() {
+    if (!window.confirm('Delete this skill?')) return;
+    await deleteSkill(skill!.id);
+    navigate('/');
+  }
+
   return (
     <main style={{ padding: '1rem', maxWidth: '800px' }}>
       <h1>{skill.name}</h1>
       <p><em>{skill.description}</em></p>
       <hr />
       <ReactMarkdown>{skill.content}</ReactMarkdown>
+      <button onClick={handleDelete} style={{ marginTop: '1rem' }}>
+        Delete
+      </button>
     </main>
   );
 }
