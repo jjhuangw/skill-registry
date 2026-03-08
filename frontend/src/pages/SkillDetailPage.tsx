@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { fetchSkill, Skill } from '../api';
+import { fetchSkill } from '../api';
+import type { Skill } from '../api';
 
 export default function SkillDetailPage() {
   const { id } = useParams<{ id: string }>();

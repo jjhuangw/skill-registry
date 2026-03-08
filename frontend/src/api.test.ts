@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-global.fetch = vi.fn();
+globalThis.fetch = vi.fn() as typeof fetch;
 
 import { fetchSkills, fetchSkill, registerSkill } from './api';
 

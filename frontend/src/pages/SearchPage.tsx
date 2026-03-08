@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchSkills, Skill } from '../api';
+import { fetchSkills } from '../api';
+import type { Skill } from '../api';
 
 export default function SearchPage() {
   const [query, setQuery] = useState('');
