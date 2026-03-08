@@ -48,3 +48,12 @@ export function createSkill(input: { name: string; description: string; content:
   writeSkills(skills);
   return skill;
 }
+
+export function deleteSkill(id: string): boolean {
+  const skills = readSkills();
+  const index = skills.findIndex((s) => s.id === id);
+  if (index === -1) return false;
+  skills.splice(index, 1);
+  writeSkills(skills);
+  return true;
+}
