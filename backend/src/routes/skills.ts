@@ -9,7 +9,7 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.get('/:id', (req: Request, res: Response) => {
-  const skill = getSkillById(req.params.id);
+  const skill = getSkillById(req.params['id'] as string);
   if (!skill) return res.status(404).json({ error: 'Not found' });
   res.json(skill);
 });
