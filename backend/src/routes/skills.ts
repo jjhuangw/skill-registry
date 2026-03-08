@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { listSkills, getSkillById, createSkill } from '../skills';
+import { listSkills, getSkillById, createSkill, deleteSkill } from '../skills';
 
 const router = Router();
 
@@ -21,6 +21,12 @@ router.post('/', (req: Request, res: Response) => {
   }
   const skill = createSkill({ name, description, content });
   res.status(201).json(skill);
+});
+
+router.delete('/:id', (req: Request, res: Response) => {
+  const deleted = deleteSkill(req.params['id'] as string);
+  if (!deleted) return res.status(404).json({ error: 'Not found' });
+  res.status(204).send();
 });
 
 export default router;

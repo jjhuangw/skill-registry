@@ -23,6 +23,7 @@ beforeEach(() => {
   vi.mocked(skillsModule.listSkills).mockReturnValue([mockSkill]);
   vi.mocked(skillsModule.getSkillById).mockReturnValue(mockSkill);
   vi.mocked(skillsModule.createSkill).mockReturnValue(mockSkill);
+  vi.mocked(skillsModule.deleteSkill).mockReturnValue(true);
 });
 
 describe('GET /api/skills', () => {
@@ -64,5 +65,18 @@ describe('POST /api/skills', () => {
   it('returns 400 when fields are missing', async () => {
     const res = await request(app).post('/api/skills').send({ name: 'Only name' });
     expect(res.status).toBe(400);
+  });
+});
+
+describe('DELETE /api/skills/:id', () => {
+  it('returns 204 when skill deleted', async () => {
+    const res = await request(app).delete('/api/skills/1');
+    expect(res.status).toBe(204);
+  });
+
+  it('returns 404 when skill not found', async () => {
+    vi.mocked(skillsModule.deleteSkill).mockReturnValue(false);
+    const res = await request(app).delete('/api/skills/999');
+    expect(res.status).toBe(404);
   });
 });
