@@ -17,8 +17,12 @@ export default function SkillDetailPage() {
 
   async function handleDelete() {
     if (!window.confirm('Delete this skill?')) return;
-    await deleteSkill(skill!.id);
-    navigate('/');
+    try {
+      await deleteSkill(skill!.id);
+      navigate('/');
+    } catch {
+      alert('Failed to delete skill. Please try again.');
+    }
   }
 
   return (

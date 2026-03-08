@@ -50,4 +50,9 @@ describe('deleteSkill', () => {
     await deleteSkill('1');
     expect(fetch).toHaveBeenCalledWith('/api/skills/1', expect.objectContaining({ method: 'DELETE' }));
   });
+
+  it('throws when response is not ok', async () => {
+    vi.mocked(fetch).mockResolvedValue({ ok: false, status: 404 } as Response);
+    await expect(deleteSkill('999')).rejects.toThrow('Failed to delete skill: 404');
+  });
 });

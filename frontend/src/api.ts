@@ -31,5 +31,6 @@ export async function registerSkill(data: {
 }
 
 export async function deleteSkill(id: string): Promise<void> {
-  await fetch(`/api/skills/${id}`, { method: 'DELETE' });
+  const res = await fetch(`/api/skills/${id}`, { method: 'DELETE' });
+  if (!res.ok) throw new Error(`Failed to delete skill: ${res.status}`);
 }

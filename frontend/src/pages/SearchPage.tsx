@@ -13,8 +13,12 @@ export default function SearchPage() {
 
   async function handleDelete(id: string) {
     if (!window.confirm('Delete this skill?')) return;
-    await deleteSkill(id);
-    setSkills((prev) => prev.filter((s) => s.id !== id));
+    try {
+      await deleteSkill(id);
+      setSkills((prev) => prev.filter((s) => s.id !== id));
+    } catch {
+      alert('Failed to delete skill. Please try again.');
+    }
   }
 
   return (
