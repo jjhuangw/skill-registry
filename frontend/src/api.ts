@@ -29,3 +29,7 @@ export async function registerSkill(data: {
   });
   return res.json();
 }
+
+export async function deleteSkill(id: string): Promise<void> {
+  await fetch(`/api/skills/${id}`, { method: 'DELETE' });
+}

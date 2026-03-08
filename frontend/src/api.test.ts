@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 globalThis.fetch = vi.fn() as typeof fetch;
 
-import { fetchSkills, fetchSkill, registerSkill } from './api';
+import { fetchSkills, fetchSkill, registerSkill, deleteSkill } from './api';
 
 const mockSkill = { id: '1', name: 'Skill', description: 'Desc', content: '# Hi', createdAt: '' };
 
@@ -41,5 +41,13 @@ describe('registerSkill', () => {
     vi.mocked(fetch).mockResolvedValue({ json: async () => mockSkill } as Response);
     await registerSkill({ name: 'N', description: 'D', content: 'C' });
     expect(fetch).toHaveBeenCalledWith('/api/skills', expect.objectContaining({ method: 'POST' }));
+  });
+});
+
+describe('deleteSkill', () => {
+  it('sends DELETE to /api/skills/:id', async () => {
+    vi.mocked(fetch).mockResolvedValue({ ok: true } as Response);
+    await deleteSkill('1');
+    expect(fetch).toHaveBeenCalledWith('/api/skills/1', expect.objectContaining({ method: 'DELETE' }));
   });
 });
